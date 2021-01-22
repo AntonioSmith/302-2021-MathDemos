@@ -14,6 +14,9 @@ public class LerpDemo : MonoBehaviour
     private float animationPlayheadTime = 0;
     private bool isAnimPlaying = false;
 
+    public AnimationCurve animationCurve; // allows use of the curve editor in Unity
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,18 +33,27 @@ public class LerpDemo : MonoBehaviour
 
             // calculate new value for percent
             percent = animationPlayheadTime / animationLength;
+            // clamp in 0 to 1 range
             percent = Mathf.Clamp(percent, 0, 1);
-            DoTheLerp();
+
+            float p = animationCurve.Evaluate(percent);
+            print(percent);
+
+            // percent = percent * percent * (3 - 2 * percent); // speeds up then slows down
+
+            // move object to lerped position
+            DoTheLerp(p);
+            // stop playing
             if (percent >= 1) isAnimPlaying = false; 
         }
     }
 
-    private void DoTheLerp()
+    private void DoTheLerp(float p)
     {
         transform.position = AnimMath.Lerp(
             objectStart.transform.position,
             objectEnd.transform.position,
-            percent
+            p
         );
     }
 
@@ -53,6 +65,6 @@ public class LerpDemo : MonoBehaviour
 
     private void OnValidate()
     {
-        DoTheLerp();
+        DoTheLerp(percent);
     }
 }
