@@ -30,15 +30,15 @@ public static class AnimMath
         //return new Vector3(x, y, z);
     }
 
-    public static float Slide(float current, float target, float p)
+    public static float Slide(float current, float target, float percentLeftAfter1Second) // 1 dimensional slide
     {
-        // TODO: make framerate independent
+        float p = 1 - Mathf.Pow(percentLeftAfter1Second, Time.deltaTime); // makes this framerate independent
         return AnimMath.Lerp(current, target, p);
     }
 
-    public static Vector3 Slide(Vector3 current, Vector3 target, float p)
+    public static Vector3 Slide(Vector3 current, Vector3 target, float percentLeftAfter1Second) // 3 dimensional slide
     {
-        // TODO: make framerate independent
+        float p = 1 - Mathf.Pow(percentLeftAfter1Second, Time.deltaTime); // makes this framerate independent
         return AnimMath.Lerp(current, target, p);
     }
 
