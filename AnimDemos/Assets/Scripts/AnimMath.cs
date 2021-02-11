@@ -30,6 +30,18 @@ public static class AnimMath
         //return new Vector3(x, y, z);
     }
 
+    public static Quaternion Lerp(Quaternion min, Quaternion max, float p, bool allowExtrapolation = true)
+    {
+        Quaternion rot = Quaternion.identity; // rotation = no rotation
+        rot.x = Lerp(min.x, max.x, p, allowExtrapolation);
+        rot.y = Lerp(min.y, max.y, p, allowExtrapolation);
+        rot.z = Lerp(min.z, max.z, p, allowExtrapolation);
+        rot.w = Lerp(min.w, max.w, p, allowExtrapolation);
+
+        //Quaternion.Lerp(min, max, p);
+        return rot;
+    }
+
     public static float Slide(float current, float target, float percentLeftAfter1Second) // 1 dimensional slide
     {
         float p = 1 - Mathf.Pow(percentLeftAfter1Second, Time.deltaTime); // makes this framerate independent
@@ -42,4 +54,9 @@ public static class AnimMath
         return AnimMath.Lerp(current, target, p);
     }
 
+    public static Quaternion Slide(Quaternion current, Quaternion target, float percentLeftAfter1Second = .05f)
+    {
+        float p = 1 - Mathf.Pow(percentLeftAfter1Second, Time.deltaTime); // makes this framerate independent
+        return AnimMath.Lerp(current, target, p);
+    }
 }
